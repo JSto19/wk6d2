@@ -18,9 +18,33 @@ let person3 = {
     }]
 }
 
-function favFood(p3_obj){
-    for (let i = 0; i < Object.values(person3).length; i++){
-        console.log(Object.values(person3)[i])
+console.log(person3)
+
+function parseObject(){
+    // Loop through the keys of person3
+    for (let i = 0; i < Object.keys(person3).length; i++){
+        // If value at key[i] is an array
+        if (Array.isArray(Object.values(person3)[i])){
+            // Loop through the array
+            for (let j = 0; j < Object.values(person3)[i].length; j++){
+                // if the value of array[j] is an object
+                if(typeof(Object.values(person3)[i][j]) === 'object'){
+                    // loop through the keys of person3[i][j]
+                    for(let k=0; k < Object.keys(Object.values(person3)[i][j]).length; k++){
+                        // log the values at index k of person3[i][j]
+                        console.log(Object.values(Object.values(person3)[i][j])[k])
+                    }
+                // if not an object
+                }else{
+                    // log value at person3[i][j]
+                    console.log(Object.values(person3)[i][j])
+                }
+            }
+        // if not an array
+        } else {
+            // log value at person3[i]
+            console.log(Object.values(person3)[i])
+        }
     }
 }
 
@@ -42,19 +66,27 @@ function Person(name,age){
     // Use an arrow to create the printInfo method
 
     this.printInfo = () => {
-        return `You're ${this.name} and you are ${this.age} years old`
+        console.log(`Name: ${this.name} \nAge: ${this.age}`)
     }
     // Create another arrow function for the addAge method that takes a single parameter
-    this.age = () => {
-        this.age = this.age + 1;
+    this.increaseAge = () => {
+        this.age += ageIncrease
+        return this.age
     }
-    // Adding to the age 
-    let new_person = new Person('Josh',42);
-
-    
+    this.closeAge = (() =>{
+        return ()=>{return this.age++}
+    })()
+    // Adding to the age
 }
 
-console.log(new_person.printInfo())
+person1 = new Person('Josh',42);
+person2 = new Person('Brian',27);
+
+person1.printInfo();
+person2.printInfo();
+
+person2.increaseAge(3);
+person2.printInfo();
 
 
 // =============Exercise #3 ============//
@@ -77,8 +109,8 @@ const isStringGreater = (_a) => {
     })
 }
 
-isStringGreater(-a).then((result) => {
-    console.log('Big Word', result)
+isStringGreater(_a).then((result) => {
+    console.log('Large', result)
 }).catch((error) => {
-    console.log('Small Number', error)
+    console.log('Small', error)
 })
